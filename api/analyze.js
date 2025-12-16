@@ -1,5 +1,3 @@
-import nlp from "compromise";
-
 export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Only POST allowed" });
@@ -10,18 +8,12 @@ export default function handler(req, res) {
     return res.status(400).json({ error: "Missing text" });
   }
 
-  const doc = nlp(text);
-
-  const people = doc.people().out("array");
-  const places = doc.places().out("array");
-  const topics = doc.topics().out("array");
-  const terms = doc.terms().out("array");
+  const words = text.split(/\s+/);
+  const wordCount = words.length;
 
   res.status(200).json({
     original: text,
-    terms,
-    people,
-    places,
-    topics,
+    wordCount,
+    words,
   });
 }
