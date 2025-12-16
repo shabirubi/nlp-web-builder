@@ -1,5 +1,4 @@
 import nlp from "compromise";
-import { WordTokenizer, PorterStemmer } from "natural";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -13,15 +12,11 @@ export default async function handler(req, res) {
   const people = doc.people().out("array");
   const places = doc.places().out("array");
   const topics = doc.topics().out("array");
-
-  const tokenizer = new WordTokenizer();
-  const tokens = tokenizer.tokenize(text);
-  const stems = tokens.map((word) => PorterStemmer.stem(word));
+  const terms = doc.terms().out("array");
 
   res.status(200).json({
     original: text,
-    tokens,
-    stems,
+    terms,
     people,
     places,
     topics,
